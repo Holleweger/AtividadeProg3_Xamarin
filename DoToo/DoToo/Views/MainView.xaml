@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DoToo"
+             x:Class="DoToo.Views.MainView"
+             Title="Cadastro de Pessoas">
+
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItem}"/>
+    </ContentPage.ToolbarItems>
+
+    <!-- Listagem em Grid -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button Style="{StaticResource FilterButton}"
+             Text="{Binding FilterText, StringFormat='Filter: {0}'}"
+             TextColor="Black"
+             Command="{Binding ToggleFilter}">  
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Value="True">
+                    <Setter Property="TextColor" Value="White" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+
+        <ListView x:Name="ItemsListView"
+                 Grid.Row="1"
+                 RowHeight="70"
+                 ItemsSource="{Binding Items}"
+                 SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="{Binding StatusText}"
+                                      Command="{Binding ToggleCompleted}" />
+                        </ViewCell.ContextActions>
+                        <Grid Padding="10,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <BoxView Grid.RowSpan="3" />
+                            <Label
+                                Grid.Column="1" 
+                                   Grid.Row="0">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Item.Nome } " />
+                                        <Span Text=" "></Span>
+                                        <Span Text="{Binding Item.Sobrenome}"/>
+                                        <Span Text=" ("></Span>
+                                        <Span Text="{Binding Item.Sexo}"/>
+                                        <Span Text=") - "></Span>
+                                        <Span Text="{Binding Item.DataNascimento, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label
+                                Grid.Column="1" 
+                                   Grid.Row="1">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Item.Endereco } " />
+                                        <Span Text=" - "></Span>
+                                        <Span Text="{Binding Item.Cidade}"/>
+                                        <Span Text=" ("></Span>
+                                        <Span Text="{Binding Item.UF}"/>
+                                        <Span Text=")"></Span>
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </Grid>
+</ContentPage>
